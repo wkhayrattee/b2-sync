@@ -1,0 +1,42 @@
+{
+  "name": "wkhayrattee/wp-b2",
+  "description": "A WordPress plugin to sync assets files from wp-content/uploads onto a Backblaze B2 bucket",
+  "keywords": ["wordpress", "plugin", "backblaze", "backblaze b2", "rclone"],
+  "license": "GPL-3.0-or-later",
+  "authors": [
+    {
+      "name": "Wasseem Khayrattee",
+      "email": "hey@wk.contact"
+    }
+  ],
+  "type": "wordpress-plugin",
+  "config": {
+    "vendor-dir": "includes/vendor",
+    "preferred-install": {
+      "*": "dist"
+    },
+    "sort-packages": true,
+    "optimize-autoloader": true
+  },
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+      "WKWPB2\\": "src/Core"
+    },
+    "files": ["src/wkwpb2_plugin_helper.php"]
+  },
+  "require": {
+    "symfony/process": "5.3.7",
+    "monolog/monolog": "2.3.5",
+    "timber/timber": "1.19.1",
+    "guzzlehttp/guzzle": "7.4.0",
+    "symfony/cache": "5.3.8",
+    "ramsey/uuid": "4.2.3"
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://wpackagist.org/"
+    }
+  ]
+}
