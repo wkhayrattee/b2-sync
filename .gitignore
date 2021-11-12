@@ -1,3 +1,8 @@
+.idea
+.DS_Store
+.php_cs.cache
+
+## below template from github
 # ignore everything in the root except the "wp-content" directory.
 !wp-content/
 
