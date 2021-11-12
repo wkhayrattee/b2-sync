@@ -13,7 +13,7 @@
  * Plugin URI: https://github.com/wkhayrattee/wp-b2
  * Description: A WordPress plugin to sync assets files from wp-content/uploads onto a Backblaze B2 bucket
  * Version: 0.1.0
- * Requires at least: 5.8
+ * Requires at least: 5.7.2
  * Requires PHP: 7.4
  * Author: Wasseem Khayrattee
  * Author URI: https://github.com/wkhayrattee/
@@ -56,8 +56,8 @@ define('WKWPB2_VERSION', '0.1.0');
 define('WKWPB2_MINIMUM_WP_VERSION', '5.8');
 define('WKWPB2_PLUGIN_DIR_URL', plugin_dir_url(__FILE__)); //has trailing slash at end
 define('WKWPB2_PLUGIN_DIR', plugin_dir_path(__FILE__)); //has trailing slash at end
-define('WKWPB2_BASENAME', plugin_basename(WP_BUS_RINGIER_PLUGIN_DIR));
-define('WKWPB2_PLUGIN_VIEWS', WP_BUS_RINGIER_PLUGIN_DIR . 'views' . DS);
+define('WKWPB2_BASENAME', plugin_basename(WKWPB2_PLUGIN_DIR));
+define('WKWPB2_PLUGIN_VIEWS', WKWPB2_PLUGIN_DIR . 'views' . DS);
 define('WKWPB2_PLUGIN_CACHE_DIR', WP_CONTENT_DIR . DS . 'cache' . DS);
 
 /**
