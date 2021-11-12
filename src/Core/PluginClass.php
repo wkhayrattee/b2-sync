@@ -17,9 +17,14 @@ class PluginClass
      */
     public static function plugin_activation()
     {
-        //info: 'Activation: set plugin_key to true'
+        //added to handle post_activation stuffs as the plugin does not have notion of this state
         add_option(Enum::PLUGIN_KEY, true);
+
+        //info: 'Activation: set plugin_key to true'
+        wkwpb2_logthis('Activation: set plugin_key to true', false);
+
         //info: 'plugin_activated'
+        wkwpb2_logthis('plugin_activated', false);
     }
 
     /**
@@ -31,6 +36,7 @@ class PluginClass
     public static function plugin_deactivation()
     {
         //info: 'plugin_deactivated'
+        wkwpb2_logthis('plugin_deactivated', false);
 
         // TODO: Remove any scheduled cron jobs.
 //        $my_cron_events = array(
@@ -52,7 +58,12 @@ class PluginClass
      */
     public static function plugin_uninstall()
     {
-        //info: 'plugin_uninstall hook called'
         delete_option(Enum::PLUGIN_KEY);
+
+        //info: 'Uninstallation: flushed plugin_key'
+        wkwpb2_logthis('Uninstallation: flushed plugin_key', false);
+
+        //info: 'plugin_uninstall hook called'
+        wkwpb2_logthis('plugin_uninstall hook called', false);
     }
 }
