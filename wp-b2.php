@@ -1,6 +1,8 @@
 <?php
 /**
  * WP-B2
+ * namespace used: WKWPB2
+ * (to prevent any clashes with other plugins)
  *
  * @author Wasseem Khayrattee
  * @copyright 2021 Wasseem Khayrattee
@@ -62,3 +64,11 @@ define('WKWPB2_PLUGIN_CACHE_DIR', WP_CONTENT_DIR . DS . 'cache' . DS);
  * load our main file now with composer autoloading
  */
 require_once WKWPB2_PLUGIN_DIR . DS . 'includes/vendor/autoload.php';
+
+/**
+ * Register main Hooks
+ */
+register_activation_hook(__FILE__, ['WKWPB2\\PluginClass', 'plugin_activation']);
+register_deactivation_hook(__FILE__, ['WKWPB2\\PluginClass', 'plugin_deactivation']);
+//the below will be handled by uninstall.php
+//register_uninstall_hook(__FILE__, ['WKWPB2\\PluginClass', 'plugin_uninstall']);
