@@ -6,7 +6,7 @@
  * @github wkhayrattee
  */
 
-namespace WKWPB2;
+namespace B2Sync;
 
 class PluginClass
 {
@@ -21,10 +21,10 @@ class PluginClass
         add_option(Enum::PLUGIN_KEY, true);
 
         //info: 'Activation: set plugin_key to true'
-        wkwpb2_logthis('Activation: set plugin_key to true', false);
+        B2Sync_logthis('Activation: set plugin_key to true', false);
 
         //info: 'plugin_activated'
-        wkwpb2_logthis('plugin_activated', false);
+        B2Sync_logthis('plugin_activated', false);
     }
 
     /**
@@ -36,7 +36,7 @@ class PluginClass
     public static function plugin_deactivation()
     {
         //info: 'plugin_deactivated'
-        wkwpb2_logthis('plugin_deactivated', false);
+        B2Sync_logthis('plugin_deactivated', false);
 
         // TODO: Remove any scheduled cron jobs.
 //        $my_cron_events = array(
@@ -61,9 +61,9 @@ class PluginClass
         delete_option(Enum::PLUGIN_KEY);
 
         //info: 'Uninstallation: flushed plugin_key'
-        wkwpb2_logthis('Uninstallation: flushed plugin_key', false);
+        B2Sync_logthis('Uninstallation: flushed plugin_key', false);
 
         //info: 'plugin_uninstall hook called'
-        wkwpb2_logthis('plugin_uninstall hook called', false);
+        B2Sync_logthis('plugin_uninstall hook called', false);
     }
 }

@@ -7,7 +7,7 @@
  */
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
-use WKWPB2\Enum;
+use B2Sync\Enum;
 
 /**
  * Wrapper to log Messages in a custom log file
@@ -17,7 +17,7 @@ use WKWPB2\Enum;
  *
  * @throws \Exception
  */
-function wkwpb2_logthis($message, $isError = true)
+function B2Sync_logthis($message, $isError = true)
 {
     $log = new Logger('wkwpb2_plugin_info_log');
     $stream = null;

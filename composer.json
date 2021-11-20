@@ -1,6 +1,6 @@
 {
-  "name": "wkhayrattee/wp-b2",
-  "description": "A WordPress plugin to sync assets files from wp-content/uploads onto a Backblaze B2 bucket",
+  "name": "wkhayrattee/b2-sync",
+  "description": "A WordPress plugin for Backblaze b2 cloud to sync assets files from wp-content/uploads onto a Backblaze B2 bucket",
   "keywords": ["wordpress", "plugin", "backblaze", "backblaze b2", "rclone"],
   "license": "GPL-3.0-or-later",
   "authors": [
@@ -21,9 +21,9 @@
   "minimum-stability": "dev",
   "autoload": {
     "psr-4": {
-      "WKWPB2\\": "src/Core"
+      "B2Sync\\": "src/Core"
     },
-    "files": ["src/wkwpb2_plugin_helper.php"]
+    "files": ["src/B2Sync_plugin_helper.php"]
   },
   "require": {
     "symfony/process": "5.3.7",

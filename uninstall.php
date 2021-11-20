@@ -29,12 +29,12 @@ if (!defined('WP_UNINSTALL_PLUGIN')) {
 /**
  * load our main file now with composer autoloading
  */
-define('DS', DIRECTORY_SEPARATOR);
-define('WKWPB2_PLUGIN_DIR', plugin_dir_path(__FILE__)); //has trailing slash at end
-require_once WKWPB2_PLUGIN_DIR . DS . 'includes/vendor/autoload.php';
+define('B2Sync_DS', DIRECTORY_SEPARATOR);
+define('B2Sync_PLUGIN_DIR', plugin_dir_path(__FILE__)); //has trailing slash at end
+require_once B2Sync_PLUGIN_DIR . DS . 'includes/vendor/autoload.php';
 
 /**
  * Call our uninstall-cleanup process
  */
 //info: 'uninstall.php called'
-\WKWPB2\PluginClass::plugin_uninstall();
+\B2Sync\PluginClass::plugin_uninstall();
