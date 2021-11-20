@@ -1,5 +1,5 @@
-# wp-b2
-A WordPress plugin to sync assets files from wp-content/uploads onto a Backblaze B2 bucket
+# B2-Sync
+A WordPress plugin for Backblaze B2 cloud - to sync assets files from wp-content/uploads onto a Backblaze B2 bucket
 
 
 NOTE:
