@@ -5,6 +5,7 @@
  * @author Wasseem Khayrattee <hey@wk.contact>
  * @github wkhayrattee
  */
+
 namespace B2Sync;
 
 class Enum

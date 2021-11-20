@@ -56,14 +56,14 @@ define('B2Sync_VERSION', '0.1.0');
 define('B2Sync_MINIMUM_WP_VERSION', '5.8');
 define('B2Sync_PLUGIN_DIR_URL', plugin_dir_url(__FILE__)); //has trailing slash at end
 define('B2Sync_PLUGIN_DIR', plugin_dir_path(__FILE__)); //has trailing slash at end
-define('B2Sync_BASENAME', plugin_basename(WKWPB2_PLUGIN_DIR));
-define('B2Sync_PLUGIN_VIEWS', WKWPB2_PLUGIN_DIR . 'views' . DS);
-define('B2Sync_PLUGIN_CACHE_DIR', WP_CONTENT_DIR . DS . 'cache' . DS);
+define('B2Sync_BASENAME', plugin_basename(B2Sync_PLUGIN_DIR));
+define('B2Sync_PLUGIN_VIEWS', B2Sync_PLUGIN_DIR . 'views' . B2Sync_DS);
+define('B2Sync_PLUGIN_CACHE_DIR', WP_CONTENT_DIR . B2Sync_DS . 'cache' . B2Sync_DS);
 
 /**
  * load our main file now with composer autoloading
  */
-require_once B2Sync_PLUGIN_DIR . DS . 'includes/vendor/autoload.php';
+require_once B2Sync_PLUGIN_DIR . B2Sync_DS . 'includes/vendor/autoload.php';
 
 /**
  * Register main Hooks

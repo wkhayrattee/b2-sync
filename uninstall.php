@@ -31,7 +31,7 @@ if (!defined('WP_UNINSTALL_PLUGIN')) {
  */
 define('B2Sync_DS', DIRECTORY_SEPARATOR);
 define('B2Sync_PLUGIN_DIR', plugin_dir_path(__FILE__)); //has trailing slash at end
-require_once B2Sync_PLUGIN_DIR . DS . 'includes/vendor/autoload.php';
+require_once B2Sync_PLUGIN_DIR . B2Sync_DS . 'includes/vendor/autoload.php';
 
 /**
  * Call our uninstall-cleanup process
