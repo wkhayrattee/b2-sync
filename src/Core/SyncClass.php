@@ -13,17 +13,67 @@ use Symfony\Component\Process\Process;
 
 class SyncClass
 {
+    public $field_status = '';
+    public $key_id = '';
+    public $application_key = '';
+    public $bucket_name = '';
+    public $uploads_folder_name = '';
+
     public function __construct()
     {
+        $this->initialiseVars();
+        $this->validateFields();
     }
 
-    public static function start()
+    private function initialiseVars()
     {
-        $key_id = '';
-        $key_name = '';
-        $bucket_name = '';
-        $uploads_folder_name = '';
+        $optionList = get_option(Enum::SETTINGS_OPTION_NAME);
+        $this->field_status = Enum::FIELD_STATUS_VALUE_OFF;
 
+        if (is_array($optionList) && (Utils::notEmptyOrNull($optionList))) {
+            $this->field_status = $optionList[Enum::FIELD_STATUS];
+        }
+
+        if ($this->field_status == Enum::FIELD_STATUS_VALUE_ON) {
+            if (isset($optionList[Enum::FIELD_KEY_ID])) {
+                $this->key_id = $optionList[Enum::FIELD_KEY_ID];
+            }
+            if (isset($optionList[Enum::FIELD_APPLICATION_KEY])) {
+                $this->application_key = $optionList[Enum::FIELD_APPLICATION_KEY];
+            }
+            if (isset($optionList[Enum::FIELD_BUCKET_NAME])) {
+                $this->bucket_name = $optionList[Enum::FIELD_BUCKET_NAME];
+            }
+            if (isset($optionList[Enum::FIELD_UPLOADS_FOLDER_NAME])) {
+                $this->uploads_folder_name = $optionList[Enum::FIELD_UPLOADS_FOLDER_NAME];
+            }
+        }
+    }
+
+    private function validateFields()
+    {
+        $error = '';
+        if (!Utils::notEmptyOrNull($this->key_id)) {
+            $error .= 'key_id empty ||';
+            B2Sync_errorlogthis('[fields] KeyID cannot be empty!');
+        }
+        if (!Utils::notEmptyOrNull($this->application_key)) {
+            $error .= 'application_key empty ||';
+            B2Sync_errorlogthis('[fields] ApplicationKey cannot be empty!');
+        }
+        if (!Utils::notEmptyOrNull($this->bucket_name)) {
+            $error .= 'bucket_name empty ||';
+            B2Sync_errorlogthis('[fields] BucketName cannot be empty!');
+        }
+
+        if (mb_strlen($error) > 0) {
+            $this->field_status = Enum::FIELD_STATUS_VALUE_OFF;
+            B2Sync_errorlogthis('[WARNING] setting b2-sync to OFF - by rule, as some field(s) mentioned above is empty');
+        }
+    }
+
+    public function checkRclone()
+    {
         /**
          * Find if rclone is on the machine
          */
@@ -36,27 +86,43 @@ class SyncClass
             return false;
         }
 
-        B2Sync_infologthis('process started..');
-        $process = new Process([
-            'rclone',
-            '-q',
-            'sync',
-            '/var/www/projects/local/wordpress-with-composer/public/wp-content/test-folder/',
-            ':b2,account="xxx0004287487d6d360000000005",key="xxxK000uj9XXHNTd/5DmV0o/K9B2WDthrg":innerfolderna,e/test-folder',
-        ]);
-        $process->start();
+        return true;
+    }
 
-        while ($process->isRunning()) {
-            //waiting for process to finish
-        }
+    /**
+     * We are leverage symfony/process to run the rclone asynchronously
+     * ref: https://symfony.com/doc/current/components/process.html#running-processes-asynchronously
+     *
+     * @throws \Exception
+     */
+    public function start()
+    {
+        if (($this->field_status == Enum::FIELD_STATUS_VALUE_ON) && ($this->checkRclone() === true)) {
+            $path_to_uploads = WP_CONTENT_DIR . B2Sync_DS . 'uploads';
+            $remote_path = ':b2,account="' . $this->key_id . '",key="' . $this->application_key . '":' . $this->bucket_name . '/' . $this->uploads_folder_name;
 
-        $output = $process->getOutput();
+            B2Sync_errorlogthis('Trying to start syncing process..');
+            $process = new Process([
+                'rclone',
+                '-q',
+                'sync',
+                $path_to_uploads,
+                $remote_path,
+            ]);
+            $process->start();
 
-        if ($process->isSuccessful()) {
-            B2Sync_infologthis('Syncing seems to be successful!');
-        } else {
-            B2Sync_errorlogthis('There seems to be an issue, see output below');
-            B2Sync_errorlogthis($process->getErrorOutput());
+            while ($process->isRunning()) {
+                //waiting for process to finish
+            }
+
+            $output = $process->getOutput();
+
+            if ($process->isSuccessful()) {
+                B2Sync_infologthis('Syncing seems to be successful!');
+            } else {
+                B2Sync_errorlogthis('There seems to be an issue, see output below');
+                B2Sync_errorlogthis($process->getErrorOutput());
+            }
         }
     }
 }
