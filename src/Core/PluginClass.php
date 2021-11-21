@@ -93,26 +93,27 @@ class PluginClass
 
     public static function register_sync_actions()
     {
-        $purge_actions = [
+        $sync_on_actions_list = [
             'publish_phone',
             'save_post',
             'edit_post',
         ];
 
-        foreach ($purge_actions as $action) {
+        foreach ($sync_on_actions_list as $action) {
             if (did_action($action)) {
-                self::do_sync_once();
+                self::do_sync_once($action);
             } else {
                 add_action($action, [self::class, 'do_sync_once']);
             }
         }
     }
 
-    public static function do_sync_once()
+    public static function do_sync_once($action)
     {
+        $error_msg = '';
         static $completed = false;
         if (!$completed) {
-            Utils::doSync();
+            $error_msg = Utils::doSync($action);
             $completed = true;
         }
     }
