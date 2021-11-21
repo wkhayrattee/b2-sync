@@ -98,10 +98,20 @@ class SyncClass
     public function start()
     {
         if (($this->field_status == Enum::FIELD_STATUS_VALUE_ON) && (self::checkRclone() === true)) {
+            // The normal standard place where the WordPress uploads folder resides
             $path_to_uploads = WP_CONTENT_DIR . B2Sync_DS . 'uploads';
+
+            /*
+             * We are building the following path example:
+             *  '/path/to/wp-content/uploads :b2,account="keyID",key="applicationKey":yourbucketname/uploads'
+             */
             $remote_path = ':b2,account="' . $this->key_id . '",key="' . $this->application_key . '":' . $this->bucket_name . '/' . $this->uploads_folder_name;
 
             B2Sync_errorlogthis('Has started the syncing process..');
+            /*
+             * Command we are trying to execute on Bash:
+             * $ rclone -q sync /path/to/wp-content/uploads :b2,account="keyID",key="applicationKey":yourbucketname/uploads
+             */
             $process = new Process([
                 'rclone',
                 '-q',
@@ -111,18 +121,18 @@ class SyncClass
             ]);
             $process->start();
 
-            while ($process->isRunning()) {
-                //waiting for process to finish
-            }
+//            while ($process->isRunning()) {
+//                //waiting for process to finish
+//            }
 
             if ($process->isRunning() == false) {
                 B2Sync_errorlogthis('Syncing done!');
             }
 
-            $output = $process->getOutput();
-
             if ($process->isSuccessful()) {
+                $output = $process->getOutput();
                 B2Sync_errorlogthis('Syncing seems to be successful!');
+                B2Sync_errorlogthis($output);
             } else {
                 B2Sync_errorlogthis('There seems to be an issue, see output below');
                 B2Sync_errorlogthis($process->getErrorOutput());
