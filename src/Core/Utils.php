@@ -96,6 +96,10 @@ class Utils
 
     public static function doSync($action = 'action_button')
     {
+        //Clear log file before starting next sync
+        $error_log_file = WP_CONTENT_DIR . B2Sync_DS . Enum::LOG_FILE_ERROR;
+        AdminLogPage::clearErrorLog($error_log_file);
+
         $error_msg = '';
         B2Sync_errorlogthis('A Sync was triggered by action: ' . $action);
         if (SyncClass::checkRclone() === false) {
