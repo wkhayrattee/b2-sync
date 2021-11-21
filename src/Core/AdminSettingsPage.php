@@ -61,15 +61,34 @@ class AdminSettingsPage
     public static function renderSettingsPage()
     {
         global $title;
+        $error_msg = '';
 
         if (!current_user_can('manage_options')) {
             return;
+        }
+
+        //SYNC ACTION BUTTON TRIGGERED
+        if (isset($_POST['process_sync_btn'])) {
+
+            if (SyncClass::checkRclone() === false) {
+                $error_msg = 'WARNING: the software "rclone" does not seem to be present on your server, please ask your server admin to install it before using this plugin';
+
+            } else {
+                $sync = new SyncClass();
+                if ($sync->field_status == Enum::FIELD_STATUS_VALUE_OFF) {
+                    $error_msg = 'Please enable the sync below in the dropdown or one of the field(s) is empty!';
+                } else {
+                    $error_msg = 'Syncing has started, check the log on the sub-menu ' . Enum::ADMIN_LOG_MENU_TITLE . ' page';
+                    $sync->start();
+                }
+            }
         }
 
         $timber = new Timber();
         $settings_page_tpl = B2Sync_PLUGIN_VIEWS . 'admin' . B2Sync_DS . 'page_settings.twig';
 
         if (file_exists($settings_page_tpl)) {
+            $context['error_msg'] = $error_msg;
             $context['admin_page_title'] = $title;
             $context['settings_fields'] = new FunctionWrapper('settings_fields', [Enum::SETTINGS_OPTION_GROUP]);
             $context['do_settings_sections'] = new FunctionWrapper('do_settings_sections', [Enum::ADMIN_SETTINGS_MENU_SLUG]);
