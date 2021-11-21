@@ -60,13 +60,8 @@ class PluginClass
      */
     public static function plugin_uninstall()
     {
+        delete_option(Enum::SETTINGS_OPTION_NAME);
         delete_option(Enum::PLUGIN_KEY);
-
-        //info: 'Uninstallation: flushed plugin_key'
-        B2Sync_infologthis('Uninstallation: flushed plugin_key', false);
-
-        //info: 'plugin_uninstall hook called'
-        B2Sync_infologthis('plugin_uninstall hook called', false);
     }
 
     public static function plugin_start()
@@ -87,6 +82,7 @@ class PluginClass
                 Enum::SETTINGS_OPTION_NAME,
                 [
                     Enum::FIELD_STATUS => Enum::FIELD_STATUS_VALUE_OFF,
+                    Enum::FIELD_UPLOADS_FOLDER_NAME => 'uploads',
                 ]
             );
         }

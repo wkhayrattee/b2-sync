@@ -36,6 +36,9 @@ class Enum
     const FIELD_STATUS_VALUE_OFF = 'off';
     const FIELD_STATUS = 'field_status';
     const FIELD_KEY_ID = 'field_keyid';
+    const FIELD_APPLICATION_KEY = 'field_applicationkey';
+    const FIELD_BUCKET_NAME = 'field_bucketname';
+    const FIELD_UPLOADS_FOLDER_NAME = 'field_uploads_folder_name';
 
     //Misc
     const NOT_FOUND = 'NOT_FOUND';

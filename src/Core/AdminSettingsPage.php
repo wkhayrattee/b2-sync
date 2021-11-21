@@ -84,6 +84,9 @@ class AdminSettingsPage
     {
         $this->add_field_status();
         $this->add_field_keyid();
+        $this->add_field_applicationid();
+        $this->add_field_bucketname();
+        $this->add_field_uploads_folder_name();
     }
 
     // FIELDS Related
@@ -140,6 +143,7 @@ class AdminSettingsPage
         unset($timber);
     }
 
+    //Key ID
     public function add_field_keyid()
     {
         add_settings_field(
@@ -160,5 +164,74 @@ class AdminSettingsPage
     public static function field_keyid_callback($args)
     {
         Utils::render_field_tpl($args, 'field_keyid.twig');
+    }
+
+    //Key Name
+    public function add_field_applicationid()
+    {
+        add_settings_field(
+            Enum::SLUG_PREFIX . Enum::FIELD_APPLICATION_KEY,
+            // Use $args' label_for to populate the id inside the callback.
+            'Application Key<span style="color:red;">*</span>',
+            [self::class, 'field_applicationid_callback'],
+            Enum::ADMIN_SETTINGS_MENU_SLUG,
+            Enum::ADMIN_SETTINGS_SECTION_1,
+            [
+                'label_for' => Enum::FIELD_APPLICATION_KEY,
+                'class' => 'b2-sync-row',
+                'field_custom_data' => Enum::FIELD_APPLICATION_KEY,
+            ]
+        );
+    }
+
+    public static function field_applicationid_callback($args)
+    {
+        Utils::render_field_tpl($args, 'field_applicationid.twig');
+    }
+
+    //Bucket Name
+    public function add_field_bucketname()
+    {
+        add_settings_field(
+            Enum::SLUG_PREFIX . Enum::FIELD_BUCKET_NAME,
+            // Use $args' label_for to populate the id inside the callback.
+            'Bucket Name<span style="color:red;">*</span>',
+            [self::class, 'field_bucketname_callback'],
+            Enum::ADMIN_SETTINGS_MENU_SLUG,
+            Enum::ADMIN_SETTINGS_SECTION_1,
+            [
+                'label_for' => Enum::FIELD_BUCKET_NAME,
+                'class' => 'b2-sync-row',
+                'field_custom_data' => Enum::FIELD_BUCKET_NAME,
+            ]
+        );
+    }
+
+    public static function field_bucketname_callback($args)
+    {
+        Utils::render_field_tpl($args, 'field_bucketname.twig');
+    }
+
+    //Bucket Name
+    public function add_field_uploads_folder_name()
+    {
+        add_settings_field(
+            Enum::SLUG_PREFIX . Enum::FIELD_UPLOADS_FOLDER_NAME,
+            // Use $args' label_for to populate the id inside the callback.
+            'Uploads folder name<span style="color:red;">*</span>',
+            [self::class, 'field_uploads_folder_name_callback'],
+            Enum::ADMIN_SETTINGS_MENU_SLUG,
+            Enum::ADMIN_SETTINGS_SECTION_1,
+            [
+                'label_for' => Enum::FIELD_UPLOADS_FOLDER_NAME,
+                'class' => 'b2-sync-row',
+                'field_custom_data' => Enum::FIELD_UPLOADS_FOLDER_NAME,
+            ]
+        );
+    }
+
+    public static function field_uploads_folder_name_callback($args)
+    {
+        Utils::render_field_tpl($args, 'field_uploads_folder_name.twig');
     }
 }
