@@ -4,7 +4,7 @@
 **Requires at least:** 4.7  
 **Tested up to:** 5.8.2  
 **Stable tag:** 1.0.0  
-**Requires PHP:** 7.0  
+**Requires PHP:** 7.2  
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -31,7 +31,7 @@ Refer to this guide on how to install rclone: https://rclone.org/downloads/
 
 - Identify an appropriate **hook** when a media is uploaded via the ***WordPress Media Library*** so that we can trigger the sync for this action as well
 - Tell the sync process to ignore certain type of files
-- The log file messages are not pretty - createa custom approach for that instead of relying on `monolog/monolog`
+- The log file messages are not pretty - create a custom approach for that instead of relying on `monolog/monolog`
 - (not a priority for now) Show a real-time verbose mode of the sync when triggering the sync manual using the action button?
 
 ## Installation ##
