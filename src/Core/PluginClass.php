@@ -98,5 +98,9 @@ class PluginClass
         //The "admin Settings" main-PAGE
         $adminSettingsPage = new AdminSettingsPage();
         $adminSettingsPage->handleAdminUI();
+
+        //The "Log" sub-PAGE
+        $adminLogPage = new AdminLogPage();
+        $adminLogPage->handleAdminUI();
     }
 }
