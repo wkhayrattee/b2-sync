@@ -76,6 +76,8 @@ class AdminSettingsPage
         $settings_page_tpl = B2Sync_PLUGIN_VIEWS . 'admin' . B2Sync_DS . 'page_settings.twig';
 
         if (file_exists($settings_page_tpl)) {
+            $context['settings_page_nonce'] = wp_create_nonce('ajax-nonce');
+            $context['admin_url'] = get_admin_url();
             $context['error_msg'] = $error_msg;
             $context['admin_page_title'] = $title;
             $context['settings_fields'] = new FunctionWrapper('settings_fields', [Enum::SETTINGS_OPTION_GROUP]);
