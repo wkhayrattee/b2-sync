@@ -121,9 +121,12 @@ class SyncClass
             ]);
             $process->start();
 
-//            while ($process->isRunning()) {
-//                //waiting for process to finish
-//            }
+            $item_count = 1;
+            while ($process->isRunning()) {
+                //waiting for process to finish
+                B2Sync_errorlogthis('Still syncing.. Process check count->' . $item_count);
+                $item_count++;
+            }
 
             if ($process->isRunning() == false) {
                 B2Sync_errorlogthis('Syncing done!');
