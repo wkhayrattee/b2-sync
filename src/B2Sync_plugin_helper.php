@@ -17,17 +17,21 @@ use Monolog\Logger;
  *
  * @throws \Exception
  */
-function B2Sync_logthis($message, $isError = true)
+function B2Sync_infologthis($message)
 {
-    $log = new Logger('B2Sync_plugin_info_log');
-    $stream = null;
-    if ($isError === true) {
-        $stream = new StreamHandler(WP_CONTENT_DIR . B2Sync_DS . Enum::LOG_FILE_ERROR, Logger::ERROR);
-    } else {
-        $stream = new StreamHandler(WP_CONTENT_DIR . B2Sync_DS . Enum::LOG_FILE_MESSAGE, Logger::INFO);
-    }
+    $log = new Logger('B2Sync_plugin_infolog');
+    $stream = new StreamHandler(WP_CONTENT_DIR . B2Sync_DS . Enum::LOG_FILE_MESSAGE, Logger::INFO);
     $log->pushHandler($stream);
     $log->info($message);
+    unset($log);
+    unset($stream);
+}
+function B2Sync_errorlogthis($message)
+{
+    $log = new Logger('B2Sync_plugin_errorlog');
+    $stream = new StreamHandler(WP_CONTENT_DIR . B2Sync_DS . Enum::LOG_FILE_ERROR, Logger::ERROR);
+    $log->pushHandler($stream);
+    $log->error($message);
     unset($log);
     unset($stream);
 }
