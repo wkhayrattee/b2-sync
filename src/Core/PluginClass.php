@@ -29,19 +29,8 @@ class PluginClass
      */
     public static function plugin_deactivation()
     {
-        // TODO: Remove any scheduled cron jobs.
-//        $my_cron_events = array(
-//            'my_schedule_cron_recheck', //todo: use our Enum for this (wasseem)
-//            'my_scheduled_delete',
-//        );
-//
-//        foreach ( $my_cron_events as $current_cron_event ) {
-//            $timestamp = wp_next_scheduled( $current_cron_event );
-//
-//            if ( $timestamp ) {
-//                wp_unschedule_event( $timestamp, $current_cron_event );
-//            }
-//        }
+        // Remove any scheduled cron jobs.
+        Utils::handle_state_of_schedule_task(true);
     }
 
     /**
@@ -51,6 +40,8 @@ class PluginClass
     {
         delete_option(Enum::SETTINGS_OPTION_NAME);
         delete_option(Enum::PLUGIN_KEY);
+        // Remove any scheduled cron jobs.
+        Utils::handle_state_of_schedule_task(true);
     }
 
     public static function adminInit()
@@ -90,6 +81,9 @@ class PluginClass
     {
         add_action('init', [self::class, 'register_sync_actions'], 20);
 
+        //register schedule event - 15secs
+        add_action(Enum::HOOK_DO_SYNC, [self::class, 'cronExecuteHook'], 10, 1);
+
         // register the ajax action for authenticated users
         add_action('wp_ajax_ajax_method_to_trigger_sync', [self::class, 'ajax_method_to_trigger_sync']);
         // register the ajax action for unauthenticated users
@@ -106,21 +100,34 @@ class PluginClass
 
         foreach ($sync_on_actions_list as $action) {
             if (did_action($action)) {
-                self::do_sync_once($action);
+                self::schedule_sync_once($action);
             } else {
-                add_action($action, [self::class, 'do_sync_once']);
+                add_action($action, [self::class, 'schedule_sync_once']);
             }
         }
     }
 
-    public static function do_sync_once($action)
+    /**
+     * To schedule the task fo sync for later - after 15secs
+     *
+     * @param $action
+     */
+    public static function schedule_sync_once($action)
     {
         $error_msg = '';
         static $completed = false;
         if (!$completed) {
-            $error_msg = Utils::doSync($action);
             $completed = true;
+            Utils::handle_state_of_schedule_task();
         }
+    }
+
+    /**
+     * Will be called by the scheduled cron
+     */
+    public static function cronExecuteHook()
+    {
+        $error_msg = Utils::doSync('action_via_rest_api');
     }
 
     /**

@@ -42,4 +42,6 @@ class Enum
 
     //Misc
     const NOT_FOUND = 'NOT_FOUND';
+    const HOOK_DO_SYNC = 'hook_b2sync_plugin_process';
+    const SECONDS_AFTER_TO_RUN = '15';
 }

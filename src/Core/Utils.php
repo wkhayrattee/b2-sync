@@ -116,4 +116,42 @@ class Utils
 
         return $error_msg;
     }
+
+    /**
+     * This is use to schedule and unschedule our sync event
+     *
+     * @param mixed $do_remove_schedule_only
+     */
+    public static function handle_state_of_schedule_task($do_remove_schedule_only = false)
+    {
+        $timestampNow = date_timestamp_get(date_create()); //get a UNIX Timestamp for NOW
+        /*
+         * We use WordPress Time Constants
+         * https://codex.wordpress.org/Easier_Expression_of_Time_Constants
+         */
+        $currentTimestampForAction = $timestampNow + (int) Enum::SECONDS_AFTER_TO_RUN;
+        $args = ['rest_action_b2sync'];
+        $hookB2SyncAction = Enum::HOOK_DO_SYNC;
+
+        /*
+         * timestmap of any already scheduled event with SAME args
+         *      - needs to be uniquely identified will return false if not scheduled
+         */
+        $alreadyScheduledTimestamp = wp_next_scheduled($hookB2SyncAction, $args);
+
+        if ($do_remove_schedule_only === false) {
+            if ($alreadyScheduledTimestamp === false) { //means first time this cron is being scheduled
+                wp_schedule_single_event($currentTimestampForAction, $hookB2SyncAction, $args, true);
+            } else { //is not on first time
+                //unschedule current
+                wp_unschedule_event($alreadyScheduledTimestamp, $hookB2SyncAction, $args);
+                //we want to remove any pre existing ones
+
+                //re-schedule same for another time
+                wp_schedule_single_event($currentTimestampForAction, $hookB2SyncAction, $args, true);
+            }
+        } else { //this is for deactivation hook
+            wp_unschedule_event($alreadyScheduledTimestamp, $hookB2SyncAction, $args);
+        }
+    }
 }
