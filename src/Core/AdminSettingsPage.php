@@ -69,7 +69,7 @@ class AdminSettingsPage
 
         //SYNC ACTION BUTTON TRIGGERED
         if (isset($_POST['process_sync_btn'])) {
-            Utils::doSync();
+            $error_msg = Utils::doSync();
         }
 
         $timber = new Timber();
