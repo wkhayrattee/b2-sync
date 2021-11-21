@@ -1,5 +1,5 @@
 # b2-sync #
-**Contributors:** wkhayrattee  
+**Contributors:** [wkhayrattee](https://profiles.wordpress.org/wkhayrattee/)  
 **Tags:** backblaze, backblaze b2,sync,backup  
 **Requires at least:** 4.7  
 **Tested up to:** 5.8.2  
