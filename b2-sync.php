@@ -72,3 +72,15 @@ register_activation_hook(__FILE__, ['B2Sync\\PluginClass', 'plugin_activation'])
 register_deactivation_hook(__FILE__, ['B2Sync\\PluginClass', 'plugin_deactivation']);
 //the below will be handled by uninstall.php
 //register_uninstall_hook(__FILE__, ['B2Sync\\PluginClass', 'plugin_uninstall']);
+
+/**
+ * Load the admin page interface
+ */
+if (is_admin()) {
+    add_action('init', ['B2Sync\\PluginClass', 'adminInit']);
+}
+
+/**
+ * Start main process
+ */
+//\B2Sync\PluginClass::plugin_start();

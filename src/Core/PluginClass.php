@@ -18,13 +18,13 @@ class PluginClass
     public static function plugin_activation()
     {
         //added to handle post_activation stuffs as the plugin does not have notion of this state
-        add_option(Enum::PLUGIN_KEY, true);
+        add_option(Enum::PLUGIN_KEY, 'ON');
 
         //info: 'Activation: set plugin_key to true'
-        B2Sync_logthis('Activation: set plugin_key to true', false);
+        B2Sync_infologthis('Activation: set plugin_key to true', false);
 
         //info: 'plugin_activated'
-        B2Sync_logthis('plugin_activated', false);
+        B2Sync_infologthis('plugin_activated', false);
     }
 
     /**
@@ -35,8 +35,10 @@ class PluginClass
      */
     public static function plugin_deactivation()
     {
+//        delete_option(Enum::PLUGIN_KEY);
+
         //info: 'plugin_deactivated'
-        B2Sync_logthis('plugin_deactivated', false);
+        B2Sync_infologthis('plugin_deactivated', false);
 
         // TODO: Remove any scheduled cron jobs.
 //        $my_cron_events = array(
@@ -61,9 +63,44 @@ class PluginClass
         delete_option(Enum::PLUGIN_KEY);
 
         //info: 'Uninstallation: flushed plugin_key'
-        B2Sync_logthis('Uninstallation: flushed plugin_key', false);
+        B2Sync_infologthis('Uninstallation: flushed plugin_key', false);
 
         //info: 'plugin_uninstall hook called'
-        B2Sync_logthis('plugin_uninstall hook called', false);
+        B2Sync_infologthis('plugin_uninstall hook called', false);
+    }
+
+    public static function plugin_start()
+    {
+        $is_plugin_on = get_option(Enum::PLUGIN_KEY);
+        B2Sync_infologthis('is_plugin_on is ON');
+        add_action('init', ['B2Sync\\SyncClass', 'start'], 20);
+    }
+
+    public static function adminInit()
+    {
+        //if on plugin activation
+        if (get_option(Enum::PLUGIN_KEY)) {
+            delete_option(Enum::PLUGIN_KEY);
+
+            //initially if there is anything we need to initialise
+            update_option(
+                Enum::SETTINGS_OPTION_NAME,
+                [
+                    Enum::FIELD_STATUS => Enum::FIELD_STATUS_VALUE_OFF,
+                ]
+            );
+        }
+        //Now do normal stuff
+        add_action('admin_menu', [self::class, 'handleAdminUI']);
+    }
+
+    public static function handleAdminUI()
+    {
+        // Register a setting to group the data for our plugin
+        register_setting(Enum::SETTINGS_OPTION_GROUP, Enum::SETTINGS_OPTION_NAME);
+
+        //The "admin Settings" main-PAGE
+        $adminSettingsPage = new AdminSettingsPage();
+        $adminSettingsPage->handleAdminUI();
     }
 }
