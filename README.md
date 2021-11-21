@@ -1,12 +1,12 @@
 # b2-sync #
-**Contributors:** wkhayrattee
-**Tags:** backblaze, backblaze b2,sync,backup
-**Requires at least:** 4.7
-**Tested up to:** 5.8.2
-**Stable tag:** 1.0.0
-**Requires PHP:** 7.0
-**License:** GPLv2 or later
-**License URI:** https://www.gnu.org/licenses/gpl-2.0.html
+**Contributors:** wkhayrattee  
+**Tags:** backblaze, backblaze b2,sync,backup  
+**Requires at least:** 4.7  
+**Tested up to:** 5.8.2  
+**Stable tag:** 1.0.0  
+**Requires PHP:** 7.0  
+**License:** GPLv2 or later  
+**License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
 
 A WordPress plugin for Backblaze b2 cloud to sync assets files from wp-content/uploads onto a Backblaze B2 bucket
 
