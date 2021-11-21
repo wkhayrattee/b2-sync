@@ -71,7 +71,7 @@ class AdminSettingsPage
 
         if (file_exists($settings_page_tpl)) {
             $context['admin_page_title'] = $title;
-            $context['settings_fields'] = new FunctionWrapper('settings_fields', [Enum::SETTINGS_PAGE_OPTION_GROUP]);
+            $context['settings_fields'] = new FunctionWrapper('settings_fields', [Enum::SETTINGS_OPTION_GROUP]);
             $context['do_settings_sections'] = new FunctionWrapper('do_settings_sections', [Enum::ADMIN_SETTINGS_MENU_SLUG]);
             $context['submit_button'] = new FunctionWrapper('submit_button', ['Save Settings']);
 
@@ -117,7 +117,7 @@ class AdminSettingsPage
     public static function field_status_callback($args)
     {
         // Get the value of the setting we've registered with register_setting()
-        $options = get_option(Enum::SETTINGS_PAGE_OPTION_NAME);
+        $options = get_option(Enum::SETTINGS_OPTION_NAME);
 
         $timber = new Timber();
         $field_status_tpl = B2Sync_PLUGIN_VIEWS . 'admin' . B2Sync_DS . 'field_status_dropdown.twig';
@@ -129,7 +129,7 @@ class AdminSettingsPage
         }
 
         if (file_exists($field_status_tpl)) {
-            $context['field_status_name'] = Enum::SETTINGS_PAGE_OPTION_NAME . '[' . esc_attr($args['label_for']) . ']';
+            $context['field_status_name'] = Enum::SETTINGS_OPTION_NAME . '[' . esc_attr($args['label_for']) . ']';
             $context['label_for'] = esc_attr($args['label_for']);
             $context['field_custom_data'] = esc_attr($args['field_custom_data']);
             $context['field_custom_data_selected_on'] = esc_attr($status_selected_on);
