@@ -19,12 +19,6 @@ class PluginClass
     {
         //added to handle post_activation stuffs as the plugin does not have notion of this state
         add_option(Enum::PLUGIN_KEY, 'ON');
-
-        //info: 'Activation: set plugin_key to true'
-        B2Sync_infologthis('Activation: set plugin_key to true', false);
-
-        //info: 'plugin_activated'
-        B2Sync_infologthis('plugin_activated', false);
     }
 
     /**
@@ -35,11 +29,6 @@ class PluginClass
      */
     public static function plugin_deactivation()
     {
-//        delete_option(Enum::PLUGIN_KEY);
-
-        //info: 'plugin_deactivated'
-        B2Sync_infologthis('plugin_deactivated', false);
-
         // TODO: Remove any scheduled cron jobs.
 //        $my_cron_events = array(
 //            'my_schedule_cron_recheck', //todo: use our Enum for this (wasseem)
@@ -107,23 +96,22 @@ class PluginClass
         $purge_actions = [
             'publish_phone',
             'save_post',
-            'edit_post'
+            'edit_post',
         ];
 
-        foreach ( $purge_actions as $action ) {
-            if ( did_action( $action ) ) {
+        foreach ($purge_actions as $action) {
+            if (did_action($action)) {
                 self::do_sync_once();
             } else {
                 add_action($action, [self::class, 'do_sync_once']);
             }
         }
-
     }
 
     public static function do_sync_once()
     {
         static $completed = false;
-        if ( ! $completed ) {
+        if (!$completed) {
             Utils::doSync();
             $completed = true;
         }
