@@ -93,4 +93,19 @@ class Utils
 
         return false;
     }
+
+    public static function doSync()
+    {
+        if (SyncClass::checkRclone() === false) {
+            $error_msg = 'WARNING: the software "rclone" does not seem to be present on your server, please ask your server admin to install it before using this plugin';
+        } else {
+            $sync = new SyncClass();
+            if ($sync->field_status == Enum::FIELD_STATUS_VALUE_OFF) {
+                $error_msg = 'Please enable the sync below in the dropdown or one of the field(s) is empty!';
+            } else {
+                $error_msg = 'Syncing has started, check the log on the sub-menu ' . Enum::ADMIN_LOG_MENU_TITLE . ' page';
+                $sync->start();
+            }
+        }
+    }
 }
