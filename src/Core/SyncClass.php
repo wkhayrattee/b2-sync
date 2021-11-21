@@ -72,7 +72,7 @@ class SyncClass
         }
     }
 
-    public function checkRclone()
+    public static function checkRclone()
     {
         /**
          * Find if rclone is on the machine
@@ -97,11 +97,11 @@ class SyncClass
      */
     public function start()
     {
-        if (($this->field_status == Enum::FIELD_STATUS_VALUE_ON) && ($this->checkRclone() === true)) {
+        if (($this->field_status == Enum::FIELD_STATUS_VALUE_ON) && (self::checkRclone() === true)) {
             $path_to_uploads = WP_CONTENT_DIR . B2Sync_DS . 'uploads';
             $remote_path = ':b2,account="' . $this->key_id . '",key="' . $this->application_key . '":' . $this->bucket_name . '/' . $this->uploads_folder_name;
 
-            B2Sync_errorlogthis('Trying to start syncing process..');
+            B2Sync_errorlogthis('Has started the syncing process..');
             $process = new Process([
                 'rclone',
                 '-q',
@@ -115,10 +115,14 @@ class SyncClass
                 //waiting for process to finish
             }
 
+            if ($process->isRunning() == false) {
+                B2Sync_errorlogthis('Syncing done!');
+            }
+
             $output = $process->getOutput();
 
             if ($process->isSuccessful()) {
-                B2Sync_infologthis('Syncing seems to be successful!');
+                B2Sync_errorlogthis('Syncing seems to be successful!');
             } else {
                 B2Sync_errorlogthis('There seems to be an issue, see output below');
                 B2Sync_errorlogthis($process->getErrorOutput());
