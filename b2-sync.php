@@ -79,3 +79,8 @@ register_deactivation_hook(__FILE__, ['B2Sync\\PluginClass', 'plugin_deactivatio
 if (is_admin()) {
     add_action('init', ['B2Sync\\PluginClass', 'adminInit']);
 }
+
+/**
+ * Start main process
+ */
+\B2Sync\PluginClass::plugin_start();

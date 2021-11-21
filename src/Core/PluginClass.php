@@ -64,13 +64,6 @@ class PluginClass
         delete_option(Enum::PLUGIN_KEY);
     }
 
-    public static function plugin_start()
-    {
-        $is_plugin_on = get_option(Enum::PLUGIN_KEY);
-        B2Sync_infologthis('is_plugin_on is ON');
-        add_action('init', ['B2Sync\\SyncClass', 'start'], 20);
-    }
-
     public static function adminInit()
     {
         //if on plugin activation
@@ -102,5 +95,37 @@ class PluginClass
         //The "Log" sub-PAGE
         $adminLogPage = new AdminLogPage();
         $adminLogPage->handleAdminUI();
+    }
+
+    public static function plugin_start()
+    {
+        add_action('init', [self::class, 'register_sync_actions'], 20);
+    }
+
+    public static function register_sync_actions()
+    {
+        $purge_actions = [
+            'publish_phone',
+            'save_post',
+            'edit_post'
+        ];
+
+        foreach ( $purge_actions as $action ) {
+            if ( did_action( $action ) ) {
+                self::do_sync_once();
+            } else {
+                add_action($action, [self::class, 'do_sync_once']);
+            }
+        }
+
+    }
+
+    public static function do_sync_once()
+    {
+        static $completed = false;
+        if ( ! $completed ) {
+            Utils::doSync();
+            $completed = true;
+        }
     }
 }
