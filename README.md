@@ -8,6 +8,8 @@
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
 
+![b2-sync banner](https://ik.imagekit.io/wkhayrattee/b2sync/banner-1544x500_Hd3BLN-Sz8.png?updatedAt=1638126306180)
+
 A WordPress plugin for Backblaze b2 cloud to sync assets files from wp-content/uploads onto a Backblaze B2 bucket
 
 ## Description ##
