@@ -16,7 +16,7 @@ A WordPress plugin for Backblaze b2 cloud to sync assets files from wp-content/u
 
 This plugin allows you to sync your wp-content/uploads folder onto your backblaze b2 bucket.
 
-It will also automatically sync all your media whener you:
+It will also automatically sync all your media whenever you:
 - create a new post or page and add a new media
 - edit an existing post or page to add or update a media file
 
@@ -27,7 +27,7 @@ Fortunately, after you upload a media like this, you can directly trigger a sync
 ## REQUIREMENTS ##
 
 This plugin relies and assumes that you have *rclone* installed on your server.
-Refer to this guide on how to install rclone: https://rclone.org/downloads/
+Refer to this guide on how to install rclone: [https://rclone.org/downloads/](https://rclone.org/downloads/)
 
 ## TODO in next phase ##
 
@@ -47,7 +47,7 @@ Refer to this guide on how to install rclone: https://rclone.org/downloads/
 
 The best way to contribute to the development of this plugin is by participating on the GitHub project:
 
-https://github.com/wkhayrattee/b2-sync
+[https://github.com/wkhayrattee/b2-sync](https://github.com/wkhayrattee/b2-sync)
 
 There are many ways you can contribute:
 
