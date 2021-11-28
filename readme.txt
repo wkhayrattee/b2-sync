@@ -40,6 +40,10 @@ Refer to this guide on how to install rclone: https://rclone.org/downloads/
 
 2) Fill in your Backblaze B2 Bucket credentials on the admin page "B2-Sync" menu
 
+== Screenshots ==
+
+1. The admin settings page for configuring the parameters & credentials for your backblaza b2 bucket
+2. The admind message log screen
 
 == Contributing ==
 
