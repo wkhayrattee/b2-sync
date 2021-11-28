@@ -61,7 +61,7 @@ There are many ways you can contribute:
 
 ## Changelog ##
 
-= 1.0.0 (November 21, 2021) =
+= 1.0.0 (November 28, 2021) =
 * Initial release onto WordPress.org plugin repo with the initial code from phase 1 of this plugin
 
 = 0.1.0 (November 20, 2021) =
