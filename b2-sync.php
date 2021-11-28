@@ -12,7 +12,7 @@
  * Plugin Name: b2-sync
  * Plugin URI: https://github.com/wkhayrattee/b2-sync
  * Description: A WordPress plugin to sync assets files from wp-content/uploads onto a Backblaze B2 bucket
- * Version: 0.1.0
+ * Version: 1.0.0
  * Requires at least: 5.7.0
  * Requires PHP: 7.2
  * Author: Wasseem Khayrattee
@@ -52,8 +52,8 @@ if (!function_exists('add_action')) {
  * Some global constants for our use-case
  */
 define('B2Sync_DS', DIRECTORY_SEPARATOR);
-define('B2Sync_VERSION', '0.1.0');
-define('B2Sync_MINIMUM_WP_VERSION', '5.8');
+define('B2Sync_VERSION', '1.0.0');
+define('B2Sync_MINIMUM_WP_VERSION', '5.7');
 define('B2Sync_PLUGIN_DIR_URL', plugin_dir_url(__FILE__)); //has trailing slash at end
 define('B2Sync_PLUGIN_DIR', plugin_dir_path(__FILE__)); //has trailing slash at end
 define('B2Sync_BASENAME', plugin_basename(B2Sync_PLUGIN_DIR));
