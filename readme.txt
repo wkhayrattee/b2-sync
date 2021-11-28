@@ -54,6 +54,9 @@ There are many ways you can contribute:
 * Provide us with your feedback and/or suggestions for any improvement or enhancement
 * Translation - this is an area we are yet to do
 
+== Attributions ==
+* **Storyset** for the illustrations
+
 == Changelog ==
 
 = 1.0.0 (November 21, 2021) =
