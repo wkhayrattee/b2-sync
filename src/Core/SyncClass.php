@@ -55,20 +55,20 @@ class SyncClass
         $error = '';
         if (!Utils::notEmptyOrNull($this->key_id)) {
             $error .= 'key_id empty ||';
-            B2Sync_errorlogthis('[fields] KeyID cannot be empty!');
+            B2Sync_logthis('[fields] KeyID cannot be empty!');
         }
         if (!Utils::notEmptyOrNull($this->application_key)) {
             $error .= 'application_key empty ||';
-            B2Sync_errorlogthis('[fields] ApplicationKey cannot be empty!');
+            B2Sync_logthis('[fields] ApplicationKey cannot be empty!');
         }
         if (!Utils::notEmptyOrNull($this->bucket_name)) {
             $error .= 'bucket_name empty ||';
-            B2Sync_errorlogthis('[fields] BucketName cannot be empty!');
+            B2Sync_logthis('[fields] BucketName cannot be empty!');
         }
 
         if (mb_strlen($error) > 0) {
             $this->field_status = Enum::FIELD_STATUS_VALUE_OFF;
-            B2Sync_errorlogthis('[WARNING] setting b2-sync to OFF - by rule, as some field(s) mentioned above is empty');
+            B2Sync_logthis('[WARNING] setting b2-sync to OFF - by rule, as some field(s) mentioned above is empty');
         }
     }
 
@@ -81,7 +81,7 @@ class SyncClass
         $rclonePath = $executableFinder->find('rclone', Enum::NOT_FOUND, ['/usr/local/bin', '/usr/bin']);
 
         if ($rclonePath == Enum::NOT_FOUND) {
-            B2Sync_errorlogthis('RCLONE was not found on this server');
+            B2Sync_logthis('RCLONE was not found on this server');
 
             return false;
         }
@@ -107,38 +107,35 @@ class SyncClass
              */
             $remote_path = ':b2,account="' . $this->key_id . '",key="' . $this->application_key . '":' . $this->bucket_name . '/' . $this->uploads_folder_name;
 
-            B2Sync_errorlogthis('Has started the syncing process..');
+            B2Sync_logthis('Has started the syncing process..');
             /*
              * Command we are trying to execute on Bash:
              * $ rclone -q sync /path/to/wp-content/uploads :b2,account="keyID",key="applicationKey":yourbucketname/uploads
              */
             $process = new Process([
                 'rclone',
-                '-q',
+                '-v',
                 'sync',
                 $path_to_uploads,
                 $remote_path,
             ]);
             $process->start();
 
-            $item_count = 1;
-            while ($process->isRunning()) {
-                //waiting for process to finish
-                B2Sync_errorlogthis('Still syncing.. Process check count->' . $item_count);
-                $item_count++;
-            }
+            /**
+             * Getting real-time Process Output (from rclone)
+             * Waits until the given anonymous function returns true
+             */
+            $process->waitUntil(function ($type, $output) {
+                B2Sync_logthis('[rclone] INFO: '.$output);
 
-            if ($process->isRunning() == false) {
-                B2Sync_errorlogthis('Syncing done!');
-            }
+                return $output === 'Ready. Waiting for commands...';
+            });
 
             if ($process->isSuccessful()) {
-                $output = $process->getOutput();
-                B2Sync_errorlogthis('Syncing seems to be successful!');
-                B2Sync_errorlogthis($output);
+                B2Sync_logthis('Syncing done and seems to be successful!');
             } else {
-                B2Sync_errorlogthis('There seems to be an issue, see output below');
-                B2Sync_errorlogthis($process->getErrorOutput());
+                B2Sync_logthis('There seems to be an issue, see output below');
+                B2Sync_logthis($process->getErrorOutput());
             }
         }
     }
