@@ -90,6 +90,31 @@ class SyncClass
     }
 
     /**
+     * To check is there's any currently running rclone process
+     *
+     * @throws \Exception
+     *
+     * @return bool
+     */
+    public static function checkAnyCurrentRunningProcess()
+    {
+        $process_pgrep = new Process([
+            'pgrep',
+            '-f',
+            'rclone',
+        ]);
+        $process_pgrep->run();
+        $is_running = $process_pgrep->getOutput();
+        unset($process_pgrep);
+
+        if ($is_running > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * We are leverage symfony/process to run the rclone asynchronously
      * ref: https://symfony.com/doc/current/components/process.html#running-processes-asynchronously
      *
@@ -107,7 +132,7 @@ class SyncClass
              */
             $remote_path = ':b2,account="' . $this->key_id . '",key="' . $this->application_key . '":' . $this->bucket_name . '/' . $this->uploads_folder_name;
 
-            B2Sync_logthis('Has started the syncing process..');
+            B2Sync_logthis('[INFO] The syncing process has started..');
             /*
              * Command we are trying to execute on Bash:
              * $ rclone -q sync /path/to/wp-content/uploads :b2,account="keyID",key="applicationKey":yourbucketname/uploads
@@ -126,15 +151,15 @@ class SyncClass
              * Waits until the given anonymous function returns true
              */
             $process->waitUntil(function ($type, $output) {
-                B2Sync_logthis('[rclone] INFO: '.$output);
+                B2Sync_logthis('[rclone]: ' . $output);
 
                 return $output === 'Ready. Waiting for commands...';
             });
 
             if ($process->isSuccessful()) {
-                B2Sync_logthis('Syncing done and seems to be successful!');
+                B2Sync_logthis('[DONE] Syncing has completed and seems to be successful!');
             } else {
-                B2Sync_logthis('There seems to be an issue, see output below');
+                B2Sync_logthis('[ERROR] There seems to be an issue, see output below');
                 B2Sync_logthis($process->getErrorOutput());
             }
         }
