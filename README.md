@@ -34,7 +34,7 @@ Refer to this guide on how to install rclone: [https://rclone.org/downloads/](ht
 - Identify an appropriate **hook** when a media is uploaded via the ***WordPress Media Library*** so that we can trigger the sync for this action as well
 - Tell the sync process to ignore certain type of files
 - The log file messages are not pretty - create a custom approach for that instead of relying on `monolog/monolog`
-- (not a priority for now) Show a real-time verbose mode of the sync when triggering the sync manual using the action button?
+- [done] Show a real-time verbose mode of the sync when triggering the sync manual using the action button?
 
 ## Installation ##
 
@@ -60,6 +60,11 @@ There are many ways you can contribute:
 * **Storyset** for the illustrations
 
 ## Changelog ##
+
+= 1.1.0 (December 4, 2021) =
+
+* New Feature: see real-time output on the log screen
+* Enhancement: Allow the system to check if a sync process is already running so tha we prevent triggering any duplicate sync process
 
 = 1.0.0 (November 28, 2021) =
 * Initial release onto WordPress.org plugin repo with the initial code from phase 1 of this plugin

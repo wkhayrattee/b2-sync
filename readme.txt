@@ -63,6 +63,10 @@ There are many ways you can contribute:
 
 == Changelog ==
 
+= 1.1.0 (December 4, 2021) =
+* New Feature: see real-time output on the log screen
+* Enhancement: Allow the system to check if a sync process is already running so tha we prevent triggering any duplicate sync process
+
 = 1.0.0 (November 28, 2021) =
 * Initial release onto WordPress.org plugin repo with the initial code from phase 1 of this plugin
 
