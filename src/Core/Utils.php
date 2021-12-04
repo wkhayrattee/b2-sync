@@ -96,25 +96,37 @@ class Utils
 
     public static function doSync($action = 'action_button')
     {
-        //Clear log file before starting next sync
-        $error_log_file = WP_CONTENT_DIR . B2Sync_DS . Enum::LOG_FILE_ERROR;
-        AdminLogPage::clearErrorLog($error_log_file);
-
         $error_msg = '';
-        B2Sync_logthis('A Sync was triggered by action: ' . $action);
-        if (SyncClass::checkRclone() === false) {
-            $error_msg = 'WARNING: the software "rclone" does not seem to be present on your server, please ask your server admin to install it before using this plugin';
-        } else {
-            $sync = new SyncClass();
-            if ($sync->field_status == Enum::FIELD_STATUS_VALUE_OFF) {
-                $error_msg = 'Please enable the sync below in the dropdown or one of the field(s) is empty!';
-            } else {
-                $error_msg = 'Syncing has started, check the log on the sub-menu ' . Enum::ADMIN_LOG_MENU_TITLE . ' page';
-                $sync->start();
-            }
-        }
 
-        return $error_msg;
+        /**
+         * To check is there's any currently running rclone process
+         */
+        $is_running = SyncClass::checkAnyCurrentRunningProcess();
+        if ($is_running === true) {
+            B2Sync_logthis('[WARNING] You have invoked the sync more than once, Allow some time to let the current syncing complete!');
+
+            return false;
+        } else {
+            if (SyncClass::checkRclone() === false) {
+                $error_msg = '[ERROR] the software "rclone" does not seem to be present on your server, please ask your server admin to install it before using this plugin';
+            } else {
+                B2Sync_logthis('[INFO] A Sync was triggered by action: ' . $action);
+
+                //Clear log file before starting next sync
+                $error_log_file = WP_CONTENT_DIR . B2Sync_DS . Enum::LOG_FILE_ERROR;
+                AdminLogPage::clearErrorLog($error_log_file);
+
+                $sync = new SyncClass();
+                if ($sync->field_status == Enum::FIELD_STATUS_VALUE_OFF) {
+                    $error_msg = '[ERROR] Please enable the sync below in the dropdown or one of the field(s) is empty!';
+                } else {
+                    $error_msg = '[INFO] Syncing has started, check the log on the sub-menu ' . Enum::ADMIN_LOG_MENU_TITLE . ' page';
+                    $sync->start();
+                }
+            }
+
+            return $error_msg;
+        }
     }
 
     /**
