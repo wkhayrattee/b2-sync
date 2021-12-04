@@ -137,11 +137,10 @@ class PluginClass
     {
         // Check for nonce security
         if (!wp_verify_nonce($_POST['nonce'], 'ajax-nonce')) {
-            B2Sync_logthis('ajax nonce failed while sync button was clicked');
+            B2Sync_logthis('[ERROR] ajax nonce failed while sync button was clicked');
             wp_send_json_error('An error occurred');
         } else {
-            B2Sync_logthis('Sync process started via ajax action button');
-            $error_msg = Utils::doSync();
+            $error_msg = Utils::doSync('manual_ajax_action');
             wp_send_json_success('Sync process completed.');
         }
 
