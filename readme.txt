@@ -32,7 +32,7 @@ Refer to this guide on how to install rclone: [https://rclone.org/downloads/](ht
 - Identify an appropriate **hook** when a media is uploaded via the ***WordPress Media Library*** so that we can trigger the sync for this action as well
 - Tell the sync process to ignore certain type of files
 - The log file messages are not pretty - create a custom approach for that instead of relying on `monolog/monolog`
-- (not a priority for now) Show a real-time verbose mode of the sync when triggering the sync manual using the action button?
+- (DONE) Show a real-time verbose mode of the sync when triggering the sync manual using the action button?
 
 == Installation ==
 
