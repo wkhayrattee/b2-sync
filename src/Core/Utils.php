@@ -101,7 +101,7 @@ class Utils
         AdminLogPage::clearErrorLog($error_log_file);
 
         $error_msg = '';
-        B2Sync_errorlogthis('A Sync was triggered by action: ' . $action);
+        B2Sync_logthis('A Sync was triggered by action: ' . $action);
         if (SyncClass::checkRclone() === false) {
             $error_msg = 'WARNING: the software "rclone" does not seem to be present on your server, please ask your server admin to install it before using this plugin';
         } else {
