@@ -88,7 +88,7 @@ class AdminLogPage
     public static function fetchLogData($log_file_path)
     {
         $log_file = $log_file_path;
-        $max_lines = 10;
+        $max_lines = 100;
         $log_data = '';
         $log_data_array = [];
 
