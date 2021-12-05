@@ -3,7 +3,7 @@
 **Tags:** backblaze, backblaze b2,sync,backup  
 **Requires at least:** 4.7  
 **Tested up to:** 5.8.2  
-**Stable tag:** 1.1.0  
+**Stable tag:** 1.2.0  
 **Requires PHP:** 7.2  
 **License:** GPLv2 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
@@ -61,8 +61,11 @@ There are many ways you can contribute:
 
 ## Changelog ##
 
-= 1.1.0 (December 4, 2021) =
+= 1.2.0 (December 5, 2021) =
+* FIX: the process was blocking with wait(), let us try to make it async as getting real-time output and being async is a challenge
+* Enhancement: display all lines in the log henceforth so that user can see what is happening from start to end
 
+= 1.1.0 (December 4, 2021) =
 * New Feature: see real-time output on the log screen
 * Enhancement: Allow the system to check if a sync process is already running so tha we prevent triggering any duplicate sync process
 
