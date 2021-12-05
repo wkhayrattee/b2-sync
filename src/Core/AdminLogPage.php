@@ -111,12 +111,13 @@ class AdminLogPage
             return $log_data = 'The log is empty.';
         }
 
-        //We only want to display the latest 10 entries
-        if ($max_lines < $lines) {
-            for ($i = 0; $i < ($lines - $max_lines); ++$i) {
-                unset($log_data_array[$i]);
-            }
-        }
+        //We only want to display the latest 100 entries
+        //NOTE: Let's now display everything, so commenting the below
+//        if ($max_lines < $lines) {
+//            for ($i = 0; $i < ($lines - $max_lines); ++$i) {
+//                unset($log_data_array[$i]);
+//            }
+//        }
 
         //now fetch all lines
         foreach ($log_data_array as $line) {
