@@ -144,17 +144,34 @@ class SyncClass
                 $path_to_uploads,
                 $remote_path,
             ]);
-            $process->start();
+            $process->setTimeout(3600);
+
+            //allow time process to start
+            usleep(100);
+
+            /**
+             * - Start process Asynchronously
+             * - Get real-time Process Output (from rclone)
+             */
+            $process->start(function ($type, $buffer) {
+                B2Sync_logthis('[rclone]: ' . $buffer);
+            });
+
+            //we also need to check any timeout issues
+            while ($process->isRunning()) {
+                $process->checkTimeout();
+            }
 
             /**
              * Getting real-time Process Output (from rclone)
              * Waits until the given anonymous function returns true
+             * [warning]: the below was obviously blocking
              */
-            $process->waitUntil(function ($type, $output) {
-                B2Sync_logthis('[rclone]: ' . $output);
-
-                return $output === 'Ready. Waiting for commands...';
-            });
+//            $process->waitUntil(function ($type, $output) {
+//                B2Sync_logthis('[rclone]: ' . $output);
+//
+//                return $output === 'Ready. Waiting for commands...';
+//            });
 
             if ($process->isSuccessful()) {
                 B2Sync_logthis('[DONE] Syncing has completed and seems to be successful!');
